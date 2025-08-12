@@ -1,87 +1,71 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <title>Hacked by RouQi</title>
 <style>
 :root{--green:#39ff14}
 body{margin:0;background:#000;color:#fff;font-family:monospace;overflow:hidden}
 .scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:.8s;opacity:1}
 .hidden{opacity:0;pointer-events:none}
-.big{font-size:3em;letter-spacing:4px;text-shadow:0 0 10px #fff;text-align:center;white-space:pre-line}
-.terminal{background:rgba(0,0,0,.7);padding:15px;border:1px solid rgba(57,255,20,.2);color:var(--green);text-shadow:0 0 5px var(--green);white-space:pre-wrap}
+.big{font-size:2.5em;letter-spacing:3px;text-shadow:0 0 10px #fff,0 0 20px #fff}
+.container{display:flex;flex-direction:column;align-items:center;gap:15px;max-width:900px;width:90%}
+video{width:100%;border:2px solid #333;box-shadow:0 0 20px #fff,0 0 40px rgba(255,255,255,.5)}
+h1,h2{margin:0;text-align:center;text-shadow:0 0 10px #fff,0 0 20px #fff}
+.terminal{background:rgba(0,0,0,.8);padding:15px;border:1px solid rgba(57,255,20,.4);color:var(--green);text-shadow:0 0 5px var(--green),0 0 15px var(--green);white-space:pre-wrap;font-size:1.2em;width:100%;box-shadow:0 0 20px rgba(255,255,255,.5)}
 .cursor{display:inline-block;width:8px;background:var(--green);animation:blink 1s steps(2,start) infinite}
 @keyframes blink{50%{opacity:0}}
-img{max-width:100%;border:1px solid #333;box-shadow:0 0 20px rgba(255,255,255,.6),0 0 40px rgba(255,255,255,.3)}
-.left,.right{display:flex;flex-direction:column;gap:10px}
-.right{width:30%}
-.left{width:65%}
-.container{display:flex;gap:15px;padding:15px}
-.title{font-size:1.5em;text-shadow:0 0 10px #fff;margin-bottom:10px}
 </style>
 </head>
 <body>
 
 <!-- مشهد 1 -->
 <div id="scene1" class="scene">
-  <div class="big">SECURITY ALERT FHD IN THE SYSTEM ..
-DISCORD.GG/SKS لا تنسى تشقر علينا</div>
+  <div class="big">SECURITY ALERT...<br>DISCORD.GG/SKS</div>
 </div>
 
 <!-- مشهد 2 -->
 <div id="scene2" class="scene hidden">
   <div class="container">
-    <div class="left">
-      <!-- الصورة الأولى -->
-      <img src="https://media.tenor.com/cKfdGo-ejPAAAAPo/brian-moser-brian.gif" alt="">
-      <!-- الصورة الثانية -->
-      <img id="secondMainImg" alt="">
-      <div class="title">server@system iG ZPPC, Dis ZPPC</div>
-      <div class="terminal"><span id="typed"></span><span class="cursor"></span></div>
-    </div>
-    <div class="right">
-      <!-- صورة جانبية -->
-      <img id="sideImg" alt="">
-    </div>
+    <video id="hackVid" autoplay loop playsinline></video>
+    <h1>HACKED BY ROUQI</h1>
+    <h2>DISCORD.GG/SKS</h2>
+    <div class="terminal"><span id="typed"></span><span class="cursor"></span></div>
   </div>
 </div>
 
-<!-- ملف الصوت -->
-<audio id="hackSound" src="https://audio.jukehost.co.uk/8FojJF4kJUgRyL9BonbwZHOJ6CWfzSlM"></audio>
+<!-- صوت منفصل -->
+<audio id="https://audio.jukehost.co.uk/8FojJF4kJUgRyL9BonbwZHOJ6CWfzSlM"></audio>
 
 <script>
-// ===== إعداد الصور =====
-const secondMainImgSrc = "SECOND-MAIN-IMAGE.jpeg"; // مسار الصورة الثانية الكبيرة
-const sideImgSrc = "EDA3FA54-1723-4DBD-B08C-78C528530ADD.jpeg"; // مسار الصورة الجانبية
-document.getElementById("secondMainImg").src = secondMainImgSrc;
-document.getElementById("sideImg").src = sideImgSrc;
+// إعداد الروابط
+const videoSrc = "https://media.tenor.com/cKfdGo-ejPAAAAPo/brian-moser-brian.mp4"; // رابط الفيديو
+const soundSrc = "https://audio.jukehost.co.uk/8FojJF4kJUgRyL9BonbwZHOJ6CWfzSlM";  // رابط الصوت
+document.getElementById("hackVid").src = videoSrc;
+document.getElementById("hackSound").src = soundSrc;
 
-// ===== نص التيرمنال =====
-const text = `ROUQI: السلام عليكم ورحمة الله وبركاته 
-ماني هنا اخرب ولا اعبث بالسيرفر 
-لكن اتمنى من الاونر بكل احترام يتواصل معي على الخاص.`;
+// نص التيرمنال
+const text = `ROUQI: السلام عليكم ورحمة الله وبركاته
+ماني هنا اخرب ولا ادعث بالسيرفر
+ولكن اتمنى من الاونر يتواصل معاي دس
+System breach detected...`;
 
-// ===== تأثير الكتابة =====
-let i = 0;
+// تأثير الكتابة
+let i=0;
 function type(){
-  if(i < text.length){
+  if(i<text.length){
     document.getElementById("typed").textContent += text[i++];
-    setTimeout(type, 40);
+    setTimeout(type,40);
   }
 }
 
-// ===== الانتقال للمشهد الثاني =====
-function startScene(){
+// الانتقال للمشهد الثاني بعد ثانيتين
+setTimeout(()=>{
   document.getElementById("scene1").classList.add("hidden");
   document.getElementById("scene2").classList.remove("hidden");
-  document.getElementById("hackSound").play().catch(()=>{});
+  document.getElementById("hackSound").play();
   type();
-}
-
-// ===== تشغيل بعد ضغط المستخدم =====
-document.body.addEventListener("click", () => {
-  setTimeout(startScene, 1500);
-}, {once:true});
+},2000);
 </script>
 
 </body>
