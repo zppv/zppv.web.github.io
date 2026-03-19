@@ -6,159 +6,85 @@
 <style>
 :root { --green: #39ff14; --bg: #000; }
 body {
-  margin: 0;
-  padding: 0;
-  background: var(--bg);
-  color: #fff;
-  font-family: "Consolas", "Monaco", monospace;
-  overflow: hidden;
-  text-align: center;
+  margin: 0; padding: 0; background: var(--bg); color: #fff;
+  font-family: "Consolas", "Monaco", monospace; overflow: hidden; text-align: center;
 }
-
-/* خلفية الماتريكس */
-#matrixCanvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-}
-
-/* Scene containers */
+#matrixCanvas { position: absolute; top: 0; left: 0; z-index: 0; }
 .scene {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.8s ease;
-  z-index: 1;
+  position: absolute; inset: 0; display: flex; align-items: center;
+  justify-content: center; transition: opacity 0.8s ease; z-index: 1;
 }
-.hidden { opacity: 0; pointer-events: none; }
+.hidden { display: none !important; }
 
-/* Scene 1: typewriter effect */
 #scene1 .text {
-  font-size: 2.2em;
-  white-space: pre;
-  letter-spacing: .05em;
-  background: rgba(0, 0, 0, 0.7); /* خلفية سوداء خفيفة لتوضيح النص */
-  padding: 20px;
-  border-radius: 10px;
-  text-shadow: 0 0 10px var(--green);
+  font-size: 1.5em; white-space: pre-wrap; letter-spacing: .05em;
+  background: rgba(0, 0, 0, 0.8); padding: 20px; border-radius: 15px;
+  text-shadow: 0 0 10px var(--green); border: 1px solid var(--green);
+  max-width: 80%;
 }
 
-/* Scene 2: layout */
-.wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  padding: 20px;
-}
-
+.wrap { display: flex; flex-direction: column; align-items: center; gap: 15px; padding: 20px; width: 100%; }
 .video-frame {
-  border: 2px solid #fff;
-  box-shadow: 0 0 20px #fff;
-  border-radius: 8px;
-  overflow: hidden;
-  width: 640px;
-  max-width: 90vw;
-  height: 360px;
-  position: relative;
-  background: #111;
+  border: 2px solid #fff; box-shadow: 0 0 20px #fff; border-radius: 8px;
+  overflow: hidden; width: 640px; max-width: 90vw; height: 360px; position: relative; background: #111;
 }
-
 .video-frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  animation: slideShow 12s infinite;
+  width: 100%; height: 100%; object-fit: cover; position: absolute;
+  top: 0; left: 0; opacity: 0; animation: slideShow 12s infinite;
 }
-
 .video-frame img:nth-child(2) { animation-delay: 4s; }
 .video-frame img:nth-child(3) { animation-delay: 8s; }
 
 @keyframes slideShow {
-  0% { opacity: 0; }
-  10% { opacity: 1; filter: brightness(1.1); }
-  33% { opacity: 1; }
-  43% { opacity: 0; }
-  100% { opacity: 0; }
+  0% { opacity: 0; } 10% { opacity: 1; } 33% { opacity: 1; } 43% { opacity: 0; } 100% { opacity: 0; }
 }
 
-.hacked {
-  font-size: 2.5em;
-  text-shadow: 0 0 10px #fff;
-  animation: flashText 1.5s infinite alternate;
-}
-
+.hacked { font-size: 2em; text-shadow: 0 0 10px #fff; animation: flashText 1.5s infinite alternate; }
 .terminal {
-  width: 640px;
-  max-width: 90vw;
-  background: rgba(0,0,0,0.85);
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 6px;
-  box-shadow: 0 0 15px rgba(255,255,255,0.5);
+  width: 640px; max-width: 90vw; background: rgba(0,0,0,0.85);
+  border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; box-shadow: 0 0 15px rgba(255,255,255,0.5);
 }
-
-.terminal-header {
-  background: #222;
-  padding: 5px;
-  display: flex;
-  gap: 5px;
-}
-
+.terminal-header { background: #222; padding: 5px; display: flex; gap: 5px; }
 .btn { width: 9px; height: 9px; border-radius: 50%; }
 .btn.close { background: #ff5f57; }
 .btn.min { background: #ffbd2e; }
 .btn.max { background: #28c840; }
+.terminal-body { color: var(--green); padding: 15px; text-align: right; white-space: pre-wrap; font-size: 1.1em; line-height: 1.6; }
+.footer { margin-top: 10px; font-size: 0.9em; color: #ccc; text-shadow: 0 0 8px #fff; }
 
-.terminal-body {
-  color: var(--green);
-  padding: 15px;
-  text-align: right;
-  white-space: pre-wrap;
-  font-size: 1.1em;
-  line-height: 1.6;
-}
-
-.footer {
-  margin-top: 10px;
-  font-size: 1em;
-  color: #ccc;
-  text-shadow: 0 0 8px #fff;
+/* زر البدء لتفعيل الصوت */
+#startBtn {
+    z-index: 100; padding: 15px 30px; font-size: 1.2em; cursor: pointer;
+    background: var(--green); color: black; border: none; border-radius: 5px;
 }
 </style>
 </head>
 <body>
 
+<div id="overlay" class="scene">
+    <button id="startBtn">إضغط هنا يا لولا 🎵</button>
+</div>
+
 <canvas id="matrixCanvas"></canvas>
 
-<div id="scene1" class="scene">
+<div id="scene1" class="scene hidden">
   <div class="text" id="typeText"></div>
 </div>
 
 <div id="scene2" class="scene hidden">
   <div class="wrap">
     <div class="video-frame">
-      <img src="https://cdn.discordapp.com/attachments/1048370472221429790/1484246026167521362/IMG_4995.jpg?ex=69bd8754&is=69bc35d4&hm=5d4156afbffcec5ed7f4302c58dd4e5745774d770a3b84eca2dd1ecf20a51045&" alt="1">
-      <img src="https://cdn.discordapp.com/attachments/1048370472221429790/1484246477969555548/IMG_1878.jpg?ex=69bd87c0&is=69bc3640&hm=b46c109056d576726822b4bdabdd12ee9fd9cce5ff4b654c837a2e284be9c5d5&" alt="2">
-      <img src="https://cdn.discordapp.com/attachments/1048370472221429790/1484246551634247821/IMG_2270.jpg?ex=69bd87d1&is=69bc3651&hm=7be950882d64817044227ed2e3b9a63d9cddc057b3050a745276887707550979&" alt="3">
+      <img src="https://cdn.discordapp.com/attachments/1048370472221429790/1484246026167521362/IMG_4995.jpg?ex=69bd8754&is=69bc35d4&hm=5d4156afbffcec5ed7f4302c58dd4e5745774d770a3b84eca2dd1ecf20a51045&+1" alt="1">
+      <img src="https://cdn.discordapp.com/attachments/1048370472221429790/1484246477969555548/IMG_1878.jpg?ex=69bd87c0&is=69bc3640&hm=b46c109056d576726822b4bdabdd12ee9fd9cce5ff4b654c837a2e284be9c5d5&+2" alt="2">
+      <img src="https://cdn.discordapp.com/attachments/1048370472221429790/1484246551634247821/IMG_2270.jpg?ex=69bd87d1&is=69bc3651&hm=7be950882d64817044227ed2e3b9a63d9cddc057b3050a745276887707550979&+3" alt="3">
     </div>
     <div class="hacked">HACKED BY ABU ROUQI</div>
     <div class="terminal">
-      <div class="terminal-header">
-        <div class="btn close"></div>
-        <div class="btn min"></div>
-        <div class="btn max"></div>
-      </div>
+      <div class="terminal-header"><div class="btn close"></div><div class="btn min"></div><div class="btn max"></div></div>
       <div class="terminal-body">
-
+I2OVE YOU SO MUCH WALLAH
 ROUQI: السلام عليكم ورحمة الله وبركاته
-احبك والله شاهد
+
 يا بعد قلبي يا لولا، كل عام وأنتِ ماليّة عليّ الدنيا. عسى ربي يطول بعمرك ويخليك لي، وكل سنة وأنتِ أغلى الغالين.
       </div>
     </div>
@@ -170,74 +96,66 @@ ROUQI: السلام عليكم ورحمة الله وبركاته
 <audio id="typeSound" src="https://www.soundjay.com/mechanical/keyboard-1.mp3" preload="auto"></audio>
 
 <script>
-// --- كود الماتريكس ---
 const canvas = document.getElementById('matrixCanvas');
 const ctx = canvas.getContext('2d');
+let matrixInterval;
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function initMatrix() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄ';
+    const fontSize = 16;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = new Array(columns).fill(1);
 
-const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズヅブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
-const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const nums = '0123456789';
-const alphabet = katakana + latin + nums;
-
-const fontSize = 16;
-const columns = canvas.width / fontSize;
-const rainDrops = Array.from({ length: columns }).fill(1);
-
-function drawMatrix() {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.fillStyle = '#0F0';
-  ctx.font = fontSize + 'px monospace';
-
-  for (let i = 0; i < rainDrops.length; i++) {
-    const text = alphabet.charAt(Math.floor(Math.random() * alphabet.alphabet.length));
-    ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-
-    if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-      rainDrops[i] = 0;
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#0F0';
+      ctx.font = fontSize + 'px monospace';
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
     }
-    rainDrops[i]++;
-  }
+    matrixInterval = setInterval(drawMatrix, 35);
 }
-let matrixInterval = setInterval(drawMatrix, 30);
 
-// --- كود الكتابة والانتقال ---
-const fullText = SECURITY ALERT IT's LULA BIRTHDAY...
+// تعديل علامات الاقتباس هنا لتعمل بشكل صحيح
+const fullText = `SECURITY ALERT LULA's BIRTHDAY .. ..`;
+
 const typeElem = document.getElementById('typeText');
 const soundElem = document.getElementById('typeSound');
 let idx = 0;
 
 function typeWriter() {
   if (idx < fullText.length) {
-    const ch = fullText.charAt(idx++);
-    typeElem.textContent += ch;
-    if (ch !== "\n" && ch !== " ") {
-      soundElem.currentTime = 0;
-      soundElem.play().catch(()=>{});
-    }
-    setTimeout(typeWriter, 75);
+    typeElem.textContent += fullText.charAt(idx++);
+    soundElem.currentTime = 0;
+    soundElem.play().catch(()=>{});
+    setTimeout(typeWriter, 80);
   } else {
-    setTimeout(showScene2, 2500);
+    setTimeout(showScene2, 2000);
   }
 }
 
 function showScene2() {
-  // إخفاء الماتريكس والمشهد الأول
-  clearInterval(matrixInterval); 
-  canvas.style.display = 'none'; 
+  clearInterval(matrixInterval);
+  canvas.style.display = 'none';
   document.getElementById('scene1').classList.add('hidden');
-  
-  // إظهار المشهد الثاني
   document.getElementById('scene2').classList.remove('hidden');
   document.getElementById('bgMusic').play().catch(()=>{});
 }
 
-window.onload = typeWriter;
+// بدء التشغيل بعد ضغطة الزر
+document.getElementById('startBtn').addEventListener('click', function() {
+    document.getElementById('overlay').classList.add('hidden');
+    document.getElementById('scene1').classList.remove('hidden');
+    initMatrix();
+    typeWriter();
+});
 </script>
-
 </body>
 </html>
